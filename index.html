@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Štetje prometa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f6fa;
+      color: #333;
+    }
+
+    header {
+      background-color: #7DA4DA;
+      padding: 1rem;
+      text-align: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .counter-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: white;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .counter-label {
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+
+    .counter-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .counter-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .btn {
+      background-color: #7DA4DA;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #6b94d1;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .header-content {
+      display: flex;              /* NOVO */
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    .logo {
+      height: 50px;               /* NOVO: velikost logotipa */
+      object-fit: contain;
+    }
+
+    .meta-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      background-color: white;
+      padding: 1rem 1.5rem;
+      margin: 1.5rem auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .meta-section label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-section input {
+      margin-top: 0.3rem;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .counter-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .counter-label {
+      font-size: 1.1rem;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .counter-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .counter-controls.secondary {
+      margin-left: 1rem;
+    }
+
+    .counter-value {
+      font-size: 1.2rem;
+      font-weight: bold;
+      width: 25px;
+      text-align: center;
+    }
+
+    .btn {
+      background-color: #7DA4DA;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #6b94d1;
+    }
+
+    .btn-passenger {
+      background-color: #f7a955;
+    }
+
+    .btn-passenger:hover {
+      background-color: #ec9a3e;
+    }
+
+
+  </style>
+</head>
+<body>
+  <header>Štetje prometa</header>
+  <div class="meta-section">
+    <label>Vnašalec: <input type="text" id="meta-vnasalec" /></label>
+    <label>Števna točka: <input type="text" id="meta-tocka" /></label>
+    <label>Občina: <input type="text" id="meta-obcina" /></label>
+    <label>Datum: <input type="date" id="meta-datum" /></label>
+    <label>Termin štetja: <input type="text" id="meta-termin" /></label>
+    <label>Smer štetja: <input type="text" id="meta-smer" /></label>
+  </div>
+  <div class="container">
+    <div class="counter-box"><div class="counter-label">Pešec</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('pesec', -1)">−</button>
+        <div id="counter-pesec" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('pesec', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box"><div class="counter-label">Kolesar</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('kolesar', -1)">−</button>
+        <div id="counter-kolesar" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('kolesar', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box">
+      <div class="counter-label">Avtomobil</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('avtomobil', -1)">−</button>
+        <div id="counter-avtomobil" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('avtomobil', 1)">+</button>
+      </div>
+      <div class="counter-controls secondary">
+        <button class="btn btn-passenger" onclick="changeCount('avtomobil-potniki', -1)">−</button>
+        <div id="counter-avtomobil-potniki" class="counter-value">0</div>
+        <button class="btn btn-passenger" onclick="changeCount('avtomobil-potniki', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box">
+      <div class="counter-label">Potniški kombi</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('kombi', -1)">−</button>
+        <div id="counter-kombi" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('kombi', 1)">+</button>
+      </div>
+      <div class="counter-controls secondary">
+        <button class="btn btn-passenger" onclick="changeCount('kombi-potniki', -1)">−</button>
+        <div id="counter-kombi-potniki" class="counter-value">0</div>
+        <button class="btn btn-passenger" onclick="changeCount('kombi-potniki', 1)">+</button>
+      </div>
+    </div>  
+
+    <div class="counter-box"><div class="counter-label">Kmetijska mehanizacija</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('kmetijska', -1)">−</button>
+        <div id="counter-kmetijska" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('kmetijska', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box"><div class="counter-label">Motorist</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('motorist', -1)">−</button>
+        <div id="counter-motorist" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('motorist', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box">
+      <div class="counter-label">Mestni ali medkrajevni avtobus</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('mestni-avtobus', -1)">−</button>
+        <div id="counter-mestni-avtobus" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('mestni-avtobus', 1)">+</button>
+      </div>
+      <div class="counter-controls secondary">
+        <button class="btn btn-passenger" onclick="changeCount('mestni-avtobus-potniki', -1)">−</button>
+        <div id="counter-mestni-avtobus-potniki" class="counter-value">0</div>
+        <button class="btn btn-passenger" onclick="changeCount('mestni-avtobus-potniki', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box">
+      <div class="counter-label">Šolski avtobus</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('solski-avtobus', -1)">−</button>
+        <div id="counter-solski-avtobus" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('solski-avtobus', 1)">+</button>
+      </div>
+      <div class="counter-controls secondary">
+        <button class="btn btn-passenger" onclick="changeCount('solski-avtobus-potniki', -1)">−</button>
+        <div id="counter-solski-avtobus-potniki" class="counter-value">0</div>
+        <button class="btn btn-passenger" onclick="changeCount('solski-avtobus-potniki', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box">
+      <div class="counter-label">Delavski avtobus</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('delavski-avtobus', -1)">−</button>
+        <div id="counter-delavski-avtobus" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('delavski-avtobus', 1)">+</button>
+      </div>
+      <div class="counter-controls secondary">
+        <button class="btn btn-passenger" onclick="changeCount('delavski-avtobus-potniki', -1)">−</button>
+        <div id="counter-delavski-avtobus-potniki" class="counter-value">0</div>
+        <button class="btn btn-passenger" onclick="changeCount('delavski-avtobus-potniki', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box">
+      <div class="counter-label">Turistični avtobus</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('turisticni-avtobus', -1)">−</button>
+        <div id="counter-turisticni-avtobus" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('turisticni-avtobus', 1)">+</button>
+      </div>
+      <div class="counter-controls secondary">
+        <button class="btn btn-passenger" onclick="changeCount('turisticni-avtobus-potniki', -1)">−</button>
+        <div id="counter-turisticni-avtobus-potniki" class="counter-value">0</div>
+        <button class="btn btn-passenger" onclick="changeCount('turisticni-avtobus-potniki', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box"><div class="counter-label">Lažja tovorna vozila</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('lazja-tovorna', -1)">−</button>
+        <div id="counter-lazja-tovorna" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('lazja-tovorna', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box"><div class="counter-label">Težja tovorna vozila</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('tezja-tovorna', -1)">−</button>
+        <div id="counter-tezja-tovorna" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('tezja-tovorna', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="controls">
+      <!-- <button class="btn" onclick="exportCSV()">Izvoz v CSV</button> -->
+      <button class="btn" onclick="exportExcel()">Izvoz v Excel</button>
+      <button class="btn" onclick="resetCounters()">Reset števcev</button>
+    </div>
+ 
+    <!-- <div class="header-content">
+      <img src="locus-logo.png" alt="Locus logo" class="logo" /> 
+    </div>
+  </div> -->
+
+  <script>
+  const counterIds = [
+    'pesec',
+    'kolesar',
+    'avtomobil',
+    'kombi',
+    'kmetijska',
+    'motorist',
+    'mestni-avtobus',
+    'solski-avtobus',
+    'delavski-avtobus',
+    'turisticni-avtobus',
+    'lazja-tovorna',
+    'tezja-tovorna',
+    // dodatni števci za potnike:
+    'avtomobil-potniki',
+    'kombi-potniki',
+    'mestni-avtobus-potniki',
+    'solski-avtobus-potniki',
+    'delavski-avtobus-potniki',
+    'turisticni-avtobus-potniki'
+  ];
+
+  const metaFields = [
+  'vnasalec',
+  'tocka',
+  'obcina',
+  'datum',
+  'termin',
+  'smer'
+  ];
+
+  // Shrani meta podatke ob spremembi
+  metaFields.forEach(id => {
+    const input = document.getElementById(`meta-${id}`);
+    input.addEventListener('input', () => {
+      localStorage.setItem(`meta-${id}`, input.value);
+    });
+  });
+
+  // Naloži meta podatke ob zagonu
+  function loadMetaFields() {
+    metaFields.forEach(id => {
+      const value = localStorage.getItem(`meta-${id}`);
+      if (value !== null) {
+        document.getElementById(`meta-${id}`).value = value;
+      }
+    });
+  }
+
+  function loadCounters() {
+    const saved = JSON.parse(localStorage.getItem('stetje')) || {};
+    counterIds.forEach(id => {
+      const el = document.getElementById(`counter-${id}`);
+      el.textContent = saved[id] ?? 0;
+    });
+  }
+
+  function saveCounters() {
+    const current = {};
+    counterIds.forEach(id => {
+      const el = document.getElementById(`counter-${id}`);
+      current[id] = parseInt(el.textContent);
+    });
+    localStorage.setItem('stetje', JSON.stringify(current));
+  }
+
+  function changeCount(id, delta) {
+    const el = document.getElementById(`counter-${id}`);
+    let current = parseInt(el.textContent);
+    current = Math.max(0, current + delta);
+    el.textContent = current;
+    saveCounters();
+  }
+
+  function resetCounters() {
+    counterIds.forEach(id => {
+      const el = document.getElementById(`counter-${id}`);
+      if (el) el.textContent = 0;
+    });
+    localStorage.removeItem('stetje');
+    localStorage.removeItem('csv_zgodovina');
+  }
+
+  function exportCSV() {
+    const now = new Date().toISOString();
+    const values = counterIds.map(id => document.getElementById(`counter-${id}`).textContent);
+    const row = `${now},"${values[0]}","${values[1]}","${values[2]}","${values[3]}","${values[4]}"`;
+
+    // 📌 Zgodovina (LIFO)
+    const historyKey = 'csv_zgodovina';
+    let history = JSON.parse(localStorage.getItem(historyKey)) || [];
+    history.unshift(row); // 🔄 Dodamo na začetek (LIFO)
+    localStorage.setItem(historyKey, JSON.stringify(history));
+
+    const header = `DateTime,"pesec","avto","bus","st. potnikov","kombi"\n`;
+    const csvContent = header + history.join('\n') + '\n';
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "stetje_prometa.csv");
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function exportExcel() {
+    // Meta podatki
+    const metaFields = ['vnasalec', 'tocka', 'obcina', 'datum', 'termin', 'smer'];
+    const metaValues = metaFields.map(id => document.getElementById(`meta-${id}`).value || '');
+    const metaString = metaValues.join('; ');
+
+    // Pripravimo podatke
+    const headers = [["", "Število", "Št. potnikov/oseb"]];
+    const categories = {
+      'pesec': 'Pešec',
+      'kolesar': 'Kolesar',
+      'avtomobil': 'Avtomobil',
+      'kombi': 'Potniški kombi',
+      'kmetijska': 'Kmetijska mehanizacija',
+      'motorist': 'Motorist',
+      'mestni-avtobus': 'Mestni ali medkrajevni avtobus',
+      'solski-avtobus': 'Šolski avtobus',
+      'delavski-avtobus': 'Delavski avtobus',
+      'turisticni-avtobus': 'Turistični avtobus',
+      'lazja-tovorna': 'Lažja tovorna vozila',
+      'tezja-tovorna': 'Težja tovorna vozila'
+    };
+
+    const passengerSuffix = '-potniki';
+    const rows = [];
+
+    Object.entries(categories).forEach(([key, label]) => {
+      const mainVal = parseInt(document.getElementById(`counter-${key}`).textContent) || 0;
+      const passEl = document.getElementById(`counter-${key + passengerSuffix}`);
+      const passVal = passEl ? parseInt(passEl.textContent) || 0 : "";
+      rows.push([label, mainVal, passVal]);
+    });
+
+    // Ustvari delovni list
+    const wsData = [...headers, ...rows];
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+    ws['!cols'] = [
+      { wch: 26 }, // A - category names
+      { wch: 9 }, // B - counts
+      { wch: 15 }  // C - passengers
+    ];
+
+    // Vpišemo meta podatke v E1
+    XLSX.utils.sheet_add_aoa(ws, [[metaString]], { origin: "E1" });
+
+    // Ustvari delovni zvezek
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Štetje");
+
+    // Shrani datoteko
+    const now = new Date();
+    const fileName = `stetje_prometa_${now.toISOString().slice(0,16).replace(/[:T]/g, "-")}.xlsx`;
+    XLSX.writeFile(wb, fileName);
+  }
+
+  window.onload = () => {
+  loadCounters();
+  loadMetaFields(); // ⬅ Dodaj to
+  };
+  setInterval(() => {
+  exportExcel();
+  }, 600000);
+</script>
+</body>
+</html>
