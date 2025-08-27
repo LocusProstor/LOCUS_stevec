@@ -12,7 +12,7 @@
       background-color: #f4f6fa;
       color: #333;
     }
-
+  
     header {
       background-color: #7DA4DA;
       padding: 1rem;
@@ -22,80 +22,14 @@
       font-weight: bold;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-
+  
     .container {
       max-width: 800px;
       margin: 2rem auto;
       padding: 1rem;
     }
-
-    .counter-box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background-color: white;
-      padding: 1rem 1.5rem;
-      margin-bottom: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .counter-label {
-      font-size: 1.25rem;
-      font-weight: 500;
-    }
-
-    .counter-controls {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .counter-value {
-      font-size: 1.5rem;
-      font-weight: bold;
-      min-width: 30px;
-      text-align: center;
-    }
-
-    .btn {
-      background-color: #7DA4DA;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .btn:hover {
-      background-color: #6b94d1;
-    }
-
-    .controls {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-    .header-content {
-      display: flex;              /* NOVO */
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .title {
-      font-size: 2rem;
-      font-weight: bold;
-      color: white;
-    }
-
-    .logo {
-      height: 50px;               /* NOVO: velikost logotipa */
-      object-fit: contain;
-    }
-
+  
+    /* Meta section (user info) */
     .meta-section {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -106,14 +40,14 @@
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     }
-
+  
     .meta-section label {
       font-size: 0.95rem;
       font-weight: 500;
       display: flex;
       flex-direction: column;
     }
-
+  
     .meta-section input {
       margin-top: 0.3rem;
       padding: 0.5rem;
@@ -121,7 +55,8 @@
       border: 1px solid #ccc;
       font-size: 1rem;
     }
-
+  
+    /* Counter layout */
     .counter-box {
       display: flex;
       align-items: center;
@@ -132,30 +67,31 @@
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-
+  
     .counter-label {
       font-size: 1.1rem;
       font-weight: 500;
       flex: 1;
     }
-
+  
     .counter-controls {
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
-
+  
     .counter-controls.secondary {
       margin-left: 1rem;
     }
-
+  
     .counter-value {
       font-size: 1.2rem;
       font-weight: bold;
       width: 25px;
       text-align: center;
     }
-
+  
+    /* Buttons */
     .btn {
       background-color: #7DA4DA;
       color: white;
@@ -164,22 +100,61 @@
       border-radius: 6px;
       font-size: 1rem;
       cursor: pointer;
+      transition: background-color 0.2s ease;
     }
-
+  
     .btn:hover {
       background-color: #6b94d1;
     }
-
+  
     .btn-passenger {
       background-color: #f7a955;
     }
-
+  
     .btn-passenger:hover {
       background-color: #ec9a3e;
     }
-
-
+  
+    /* Page controls (bottom) */
+    .controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+  
+    /* Responsive adjustments for phones */
+    @media (max-width: 500px) {
+      .counter-label {
+        font-size: 0.95rem;
+      }
+  
+      .counter-value {
+        font-size: 1rem;
+        width: 20px;
+      }
+  
+      .btn,
+      .btn-passenger {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.9rem;
+      }
+  
+      .counter-controls {
+        gap: 0.4rem;
+      }
+  
+      .meta-section label {
+        font-size: 0.85rem;
+      }
+  
+      .meta-section input {
+        font-size: 0.95rem;
+        padding: 0.4rem;
+      }
+    }
   </style>
+
 </head>
 <body>
   <header>Štetje prometa</header>
@@ -511,4 +486,5 @@
 </script>
 </body>
 </html>
+
 
