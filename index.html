@@ -12,7 +12,7 @@
       background-color: #f4f6fa;
       color: #333;
     }
-  
+
     header {
       background-color: #7DA4DA;
       padding: 1rem;
@@ -22,14 +22,80 @@
       font-weight: bold;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-  
+
     .container {
       max-width: 800px;
       margin: 2rem auto;
       padding: 1rem;
     }
-  
-    /* Meta section (user info) */
+
+    .counter-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: white;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .counter-label {
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+
+    .counter-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .counter-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .btn {
+      background-color: #7DA4DA;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #6b94d1;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .header-content {
+      display: flex;              /* NOVO */
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    .logo {
+      height: 50px;               /* NOVO: velikost logotipa */
+      object-fit: contain;
+    }
+
     .meta-section {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -40,14 +106,14 @@
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     }
-  
+
     .meta-section label {
       font-size: 0.95rem;
       font-weight: 500;
       display: flex;
       flex-direction: column;
     }
-  
+
     .meta-section input {
       margin-top: 0.3rem;
       padding: 0.5rem;
@@ -55,8 +121,7 @@
       border: 1px solid #ccc;
       font-size: 1rem;
     }
-  
-    /* Counter layout */
+
     .counter-box {
       display: flex;
       align-items: center;
@@ -67,31 +132,30 @@
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-  
+
     .counter-label {
       font-size: 1.1rem;
       font-weight: 500;
       flex: 1;
     }
-  
+
     .counter-controls {
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
-  
+
     .counter-controls.secondary {
       margin-left: 1rem;
     }
-  
+
     .counter-value {
       font-size: 1.2rem;
       font-weight: bold;
       width: 25px;
       text-align: center;
     }
-  
-    /* Buttons */
+
     .btn {
       background-color: #7DA4DA;
       color: white;
@@ -100,61 +164,54 @@
       border-radius: 6px;
       font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.2s ease;
     }
-  
+
     .btn:hover {
       background-color: #6b94d1;
     }
-  
+
     .btn-passenger {
       background-color: #f7a955;
     }
-  
+
     .btn-passenger:hover {
       background-color: #ec9a3e;
     }
-  
-    /* Page controls (bottom) */
-    .controls {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-  
-    /* Responsive adjustments for phones */
+    
     @media (max-width: 500px) {
       .counter-label {
         font-size: 0.95rem;
       }
-  
+
       .counter-value {
         font-size: 1rem;
         width: 20px;
       }
-  
-      .btn,
-      .btn-passenger {
+
+      .btn {
         padding: 0.3rem 0.6rem;
         font-size: 0.9rem;
       }
-  
+
+      .btn-passenger {
+        padding: 0.3rem 0.6rem;
+      }
+
       .counter-controls {
         gap: 0.4rem;
       }
-  
+
       .meta-section label {
         font-size: 0.85rem;
       }
-  
+
       .meta-section input {
         font-size: 0.95rem;
         padding: 0.4rem;
       }
     }
-  </style>
 
+  </style>
 </head>
 <body>
   <header>Štetje prometa</header>
@@ -211,14 +268,6 @@
       </div>
     </div>  
 
-    <div class="counter-box"><div class="counter-label">Kmetijska mehanizacija</div>
-      <div class="counter-controls">
-        <button class="btn" onclick="changeCount('kmetijska', -1)">−</button>
-        <div id="counter-kmetijska" class="counter-value">0</div>
-        <button class="btn" onclick="changeCount('kmetijska', 1)">+</button>
-      </div>
-    </div>
-
     <div class="counter-box"><div class="counter-label">Motorist</div>
       <div class="counter-controls">
         <button class="btn" onclick="changeCount('motorist', -1)">−</button>
@@ -255,6 +304,22 @@
       </div>
     </div>
 
+    <div class="counter-box"><div class="counter-label">Lažja tovorna vozila</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('lazja-tovorna', -1)">−</button>
+        <div id="counter-lazja-tovorna" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('lazja-tovorna', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="counter-box"><div class="counter-label">Težja tovorna vozila</div>
+      <div class="counter-controls">
+        <button class="btn" onclick="changeCount('tezja-tovorna', -1)">−</button>
+        <div id="counter-tezja-tovorna" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('tezja-tovorna', 1)">+</button>
+      </div>
+    </div>
+
     <div class="counter-box">
       <div class="counter-label">Delavski avtobus</div>
       <div class="counter-controls">
@@ -283,19 +348,11 @@
       </div>
     </div>
 
-    <div class="counter-box"><div class="counter-label">Lažja tovorna vozila</div>
+    <div class="counter-box"><div class="counter-label">Kmetijska mehanizacija</div>
       <div class="counter-controls">
-        <button class="btn" onclick="changeCount('lazja-tovorna', -1)">−</button>
-        <div id="counter-lazja-tovorna" class="counter-value">0</div>
-        <button class="btn" onclick="changeCount('lazja-tovorna', 1)">+</button>
-      </div>
-    </div>
-
-    <div class="counter-box"><div class="counter-label">Težja tovorna vozila</div>
-      <div class="counter-controls">
-        <button class="btn" onclick="changeCount('tezja-tovorna', -1)">−</button>
-        <div id="counter-tezja-tovorna" class="counter-value">0</div>
-        <button class="btn" onclick="changeCount('tezja-tovorna', 1)">+</button>
+        <button class="btn" onclick="changeCount('kmetijska', -1)">−</button>
+        <div id="counter-kmetijska" class="counter-value">0</div>
+        <button class="btn" onclick="changeCount('kmetijska', 1)">+</button>
       </div>
     </div>
 
@@ -382,14 +439,38 @@
     let current = parseInt(el.textContent);
     current = Math.max(0, current + delta);
     el.textContent = current;
+
+    // 👇 If this is a main vehicle type with passenger counter, auto-add +1 passenger on increment
+    const passengerLinked = {
+      'avtomobil': 'avtomobil-potniki',
+      'kombi': 'kombi-potniki',
+      'mestni-avtobus': 'mestni-avtobus-potniki',
+      'solski-avtobus': 'solski-avtobus-potniki',
+      'delavski-avtobus': 'delavski-avtobus-potniki',
+      'turisticni-avtobus': 'turisticni-avtobus-potniki'
+    };
+
+    if (delta > 0 && passengerLinked[id]) {
+      const passEl = document.getElementById(`counter-${passengerLinked[id]}`);
+      if (passEl) {
+        let passVal = parseInt(passEl.textContent);
+        passVal = Math.max(0, passVal + 1);
+        passEl.textContent = passVal;
+      }
+    }
+
     saveCounters();
   }
 
   function resetCounters() {
+    const confirmed = window.confirm("Ali res želiš ponastaviti vse števce in izbrisati podatke?");
+    if (!confirmed) return;
+
     counterIds.forEach(id => {
       const el = document.getElementById(`counter-${id}`);
       if (el) el.textContent = 0;
     });
+
     localStorage.removeItem('stetje');
     localStorage.removeItem('csv_zgodovina');
   }
@@ -472,8 +553,10 @@
 
     // Shrani datoteko
     const now = new Date();
-    const fileName = `stetje_prometa_${now.toISOString().slice(0,16).replace(/[:T]/g, "-")}.xlsx`;
-    XLSX.writeFile(wb, fileName);
+    const pad = n => n.toString().padStart(2, '0');
+    const localFileName = `stetje_prometa_${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}-${pad(now.getMinutes())}.xlsx`;
+
+    XLSX.writeFile(wb, localFileName);
   }
 
   window.onload = () => {
@@ -486,5 +569,3 @@
 </script>
 </body>
 </html>
-
-
